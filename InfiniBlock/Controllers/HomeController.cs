@@ -21,6 +21,10 @@ namespace InfiniBlock.Controllers
         public IActionResult Index()
         {
             return View();
+        } 
+        public IActionResult InfiniBlock()
+        {
+            return View();
         }
 
         public IActionResult Privacy()
