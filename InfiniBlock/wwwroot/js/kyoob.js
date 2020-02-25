@@ -167,13 +167,12 @@
     var createDefaultEngine = function () { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); };
     var createScene = function () {
 
-
-       // Babylon  ---------------------------------------------------------------------
-
-
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color3(1, 1, 1);
         var camera = new BABYLON.ArcRotateCamera("camera1", -Math.PI / 2, 1.2, 300, new BABYLON.Vector3(0, 0, 0), scene);
+        // This positions the camera
+        //camera.setPosition(new BABYLON.Vector3(0, 0, 0));
+
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
@@ -187,23 +186,23 @@
         console.log("cubecolor from scene = " + cubecolor );
 
         // INNER CUBE---------------------------------------------------------------------
-        var innerBox = BABYLON.MeshBuilder.CreateBox("innerBox", { height: 20, width: 20, depth: 20 }, scene);
-        innerBox.position = new BABYLON.Vector3(0, 60, 0);
+        var innerBox = BABYLON.MeshBuilder.CreateBox("innerBox", { height: 21, width: 21, depth: 21 }, scene);
+        innerBox.position = new BABYLON.Vector3(0,50, 0);
         var mat0 = new BABYLON.StandardMaterial("mat0", scene);
         mat0.diffuseColor = new BABYLON.Color3.FromHexString(cubecolor);
         innerBox.material = mat0;
 
         //OUTER CUBE------------------------------------------------------------------
         var OnitsBoxMaker = function (name, size, material, edges, scene) {
-            var gizmo = BABYLON.Mesh.CreateBox(name, 10, scene, true);
+            var gizmo = BABYLON.Mesh.CreateBox(name, 0.1, scene, true);
             gizmo.position = new BABYLON.Vector3(0, 0, 0);
+
             var gizmoMaterial = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
             gizmoMaterial.diffuseTexture = new BABYLON.Texture("../../images/kyoob-logo.png", scene);
             gizmoMaterial.diffuseTexture.uScale = 1;//Repeat on the Vertical Axes
             gizmoMaterial.diffuseTexture.vScale = 1;//Repeat on the Horizontal Axes
             gizmo.material = gizmoMaterial;
-            //// gizmo.showBoundingBox = true;
-            //gizmo.isPickable = false;
+            gizmo.isPickable = false;
 
             gizmo.slaves = [];
             for (var i = 0; i < 6; i++) {
@@ -221,34 +220,32 @@
                 gizmo.slaves[i].material.opacityTexture = texture;
             }
 
-            gizmo.slaves[0].position = new BABYLON.Vector3(-size / 2, 75, 0);
+            gizmo.slaves[0].position = new BABYLON.Vector3(-size / 2, 0, 0);
             gizmo.slaves[0].rotation = new BABYLON.Vector3(0, Math.PI / 2, 0);
 
-            gizmo.slaves[1].position = new BABYLON.Vector3(0, 75, size / 2);
+            gizmo.slaves[1].position = new BABYLON.Vector3(0, 0, size / 2);
             gizmo.slaves[1].rotation = new BABYLON.Vector3(0, Math.PI, 0);
 
-            gizmo.slaves[2].position = new BABYLON.Vector3(size / 2, 75, 0);
+            gizmo.slaves[2].position = new BABYLON.Vector3(size / 2, 0, 0);
             gizmo.slaves[2].rotation = new BABYLON.Vector3(0, -Math.PI / 2, 0);
             // TOP
-            gizmo.slaves[3].position = new BABYLON.Vector3(0, 100, 0);
+            gizmo.slaves[3].position = new BABYLON.Vector3(0, 18, 0);
             gizmo.slaves[3].rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
             //BOTTOM
-            gizmo.slaves[4].position = new BABYLON.Vector3(0, size, 0);
+            gizmo.slaves[4].position = new BABYLON.Vector3(0, -18, 0);
             gizmo.slaves[4].rotation = new BABYLON.Vector3(-Math.PI / 2, 0, 0);
 
-            gizmo.slaves[5].position = new BABYLON.Vector3(0, 75, -size / 2);
+            gizmo.slaves[5].position = new BABYLON.Vector3(0, 0, -size / 2);
             gizmo.slaves[5].rotation = new BABYLON.Vector3(0, 0, 0);
-
             //gizmo.setPivotMatrix(BABYLON.Matrix.Translation(0, 0, -size / 2), false);
 
             return gizmo;
         };
-
-        // BASE-------------------------------------------------------------------------
+         //BASE-------------------------------------------------------------------------
         var BaseBoxMaker = function (name, size, material, edges, scene) {
-            var gizmo = BABYLON.Mesh.CreateBox(name, 10, scene, true);
-
-            //gizmo.showBoundingBox = true;
+            var gizmo = BABYLON.Mesh.CreateBox(name, 0.1, scene, true);
+            gizmo.position = new BABYLON.Vector3(0, 40, 0);
+            //gizmo.showBoundingBox = false;
             //gizmo.isPickable = false;
 
             gizmo.slaves = [];
@@ -263,77 +260,79 @@
                 gizmo.slaves[i].material = new BABYLON.StandardMaterial("mat", scene);
                 gizmo.slaves[i].material.diffuseColor = new BABYLON.Color3.FromHexString(basecolor);
                 gizmo.slaves[i].material.alpha = 1;
+                var texture = new BABYLON.Texture("../../images/basemap.png", scene);
+                gizmo.slaves[i].material.opacityTexture = texture;
 
             }
             
             gizmo.slaves[0].position = new BABYLON.Vector3(-size / 2, size / 2, 0);
             gizmo.slaves[0].rotation = new BABYLON.Vector3(0, Math.PI / 2, 0);
             // Create and tweak the background material.
-            var side0Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            side0Material.diffuseTexture = new BABYLON.Texture("../../images/Bitcoin2020-Glyph-dark-pattern 1.png", scene);
-            side0Material.diffuseTexture.uScale = 1;//Repeat on the Vertical Axes
-            side0Material.diffuseTexture.vScale = 1;//Repeat on the Horizontal Axes
-            gizmo.slaves[0].material = side0Material;
+            //var side0Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+            //side0Material.diffuseTexture = new BABYLON.Texture("../../images/Bitcoin2020-Glyph-dark-pattern 1.png", scene);
+            //side0Material.diffuseTexture.uScale = 1;//Repeat on the Vertical Axes
+            //side0Material.diffuseTexture.vScale = 1;//Repeat on the Horizontal Axes
+            //gizmo.slaves[0].material = side0Material;
 
             gizmo.slaves[1].position = new BABYLON.Vector3(0, size / 2, size / 2);
             gizmo.slaves[1].rotation = new BABYLON.Vector3(0, Math.PI, 0);
             // Create and tweak the background material.
-            var side1Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            side1Material.diffuseTexture = new BABYLON.Texture("../../images/infiniblock-logo-wh.png", scene);
-            side1Material.diffuseTexture.uScale = 1;//Repeat  on the Vertical Axes
-            side1Material.diffuseTexture.vScale = 1;//Repeat  on the Horizontal Axes
-            gizmo.slaves[1].material = side1Material;
+            //var side1Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+            //side1Material.diffuseTexture = new BABYLON.Texture("../../images/infiniblock-logo-wh.png", scene);
+            //side1Material.diffuseTexture.uScale = 1;//Repeat  on the Vertical Axes
+            //side1Material.diffuseTexture.vScale = 1;//Repeat  on the Horizontal Axes
+            //gizmo.slaves[1].material = side1Material;
 
             gizmo.slaves[2].position = new BABYLON.Vector3(size / 2, size / 2, 0);
             gizmo.slaves[2].rotation = new BABYLON.Vector3(0, -Math.PI / 2, 0);
             // Create and tweak the background material.
-            var side2Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            side2Material.diffuseTexture = new BABYLON.Texture("../../images/btcpaylogo.png", scene);
-            side2Material.diffuseTexture.uScale = 2;//Repeat 5 times on the Vertical Axes
-            side2Material.diffuseTexture.vScale = 2;//Repeat 5 times on the Horizontal Axes
-            gizmo.slaves[2].material = side2Material;
-
-
-
+            //var side2Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+            //side2Material.diffuseTexture = new BABYLON.Texture("../../images/riverf_logo_2.png", scene);
+            //side2Material.diffuseTexture.uScale = 1;//Repeat 5 times on the Vertical Axes
+            //side2Material.diffuseTexture.vScale = 1;//Repeat 5 times on the Horizontal Axes
+            //gizmo.slaves[2].material = side2Material;
             // TOP
             gizmo.slaves[3].position = new BABYLON.Vector3(0, size, 0);
             gizmo.slaves[3].rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
             //BOTTOM
-            gizmo.slaves[4].position = new BABYLON.Vector3(0, size, 0);
+            gizmo.slaves[4].position = new BABYLON.Vector3(0, 0, 0);
             gizmo.slaves[4].rotation = new BABYLON.Vector3(-Math.PI / 2, 0, 0);
 
             gizmo.slaves[5].position = new BABYLON.Vector3(0, size / 2, -size / 2);            
             gizmo.slaves[5].rotation = new BABYLON.Vector3(0, 0, 0);
 
             // Create and tweak the background material.
-            var side5Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            side5Material.diffuseTexture = new BABYLON.Texture("../../images/riverf_logo_2.png", scene);
-            side5Material.diffuseTexture.uScale = 1.0;//Repeat on the Vertical Axes
-            side5Material.diffuseTexture.vScale = 1.0;//Repeat on the Horizontal Axes
-            gizmo.slaves[5].material = side5Material;
+            //var side5Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+            //side5Material.diffuseTexture = new BABYLON.Texture("../../images/riverf_logo_2.png", scene);
+            //side5Material.diffuseTexture.uScale = 1.0;//Repeat on the Vertical Axes
+            //side5Material.diffuseTexture.vScale = 1.0;//Repeat on the Horizontal Axes
+            //gizmo.slaves[5].material = side5Material;
             //gizmo.setPivotMatrix(BABYLON.Matrix.Translation(0, 0, -size / 2), false);
 
             return gizmo;
         };
 
-        var box = OnitsBoxMaker("mybox", 50, null, true, scene);
+        var box = OnitsBoxMaker("mybox", 36, null, true, scene);
+        box.position = new BABYLON.Vector3(0, 58, 0);
         box.diffuseTexture = new BABYLON.Texture("../../images/kyoob-logo.png", scene);
         box.diffuseTexture.uScale = 1.0;
 
         //console.log("box = " + box); 
 
-        var basebox = BaseBoxMaker("mybase", 50, null, true, scene);
-        //console.log("box = " + box);
+        var basebox = BaseBoxMaker("mybase", 40, null, true, scene);
+        basebox.position = new BABYLON.Vector3(0, 0, 0);
+
+        //console.log("basebox = " + basebox);
         
 
         // Our built-in 'ground' shape.
-        var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 250, height: 350 }, scene);
-        var backgroundMaterial = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-        backgroundMaterial.diffuseTexture = new BABYLON.Texture("../../images/brekkie-art.jpg", scene);
-        backgroundMaterial.diffuseTexture.uScale = 1.0;
-        backgroundMaterial.diffuseTexture.vScale = 1.0;
-        backgroundMaterial.shadowLevel = 0.4;
-        ground.material = backgroundMaterial;
+        //var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 250, height: 350 }, scene);
+        //var backgroundMaterial = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+        //backgroundMaterial.diffuseTexture = new BABYLON.Texture("../../images/brekkie-art.jpg", scene);
+        //backgroundMaterial.diffuseTexture.uScale = 1.0;
+        //backgroundMaterial.diffuseTexture.vScale = 1.0;
+        //backgroundMaterial.shadowLevel = 0.4;
+        //ground.material = backgroundMaterial;
 
         scene.onPointerObservable.add(function (evt) {
             switch (evt.type) {

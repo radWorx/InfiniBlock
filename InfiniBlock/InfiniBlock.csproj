@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\basemap.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="images\brekkie-art.jpg" />
     <Content Include="images\map.png" />
     <Content Include="images\map2.png" />
