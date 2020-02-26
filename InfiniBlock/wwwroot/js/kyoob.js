@@ -169,11 +169,11 @@
 
         var scene = new BABYLON.Scene(engine);
         scene.clearColor = new BABYLON.Color3(1, 1, 1);
-        var camera = new BABYLON.ArcRotateCamera("camera1", -Math.PI / 2, 1.2, 300, new BABYLON.Vector3(0, 0, 0), scene);
+        var camera = new BABYLON.ArcRotateCamera("camera1", -Math.PI / 2, 1.2, 125, new BABYLON.Vector3(0, 30, 0), scene);
         // This positions the camera
         //camera.setPosition(new BABYLON.Vector3(0, 0, 0));
 
-        camera.setTarget(BABYLON.Vector3.Zero());
+        //camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, true);
 
         var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
@@ -191,6 +191,15 @@
         var mat0 = new BABYLON.StandardMaterial("mat0", scene);
         mat0.diffuseColor = new BABYLON.Color3.FromHexString(cubecolor);
         innerBox.material = mat0;
+        // KyooB---------------------------------------------------------------------
+        var kyooB = BABYLON.MeshBuilder.CreateBox("innerBox", { height: 21, width: 21, depth: 21 }, scene);
+        kyooB.position = new BABYLON.Vector3(0, 25, 0);
+       var backgroundMaterial = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+        backgroundMaterial.diffuseTexture = new BABYLON.Texture("../../images/kyoob-logo.png", scene);
+        backgroundMaterial.diffuseTexture.uScale = 1.0;
+        backgroundMaterial.diffuseTexture.vScale = 1.0;
+        //backgroundMaterial.shadowLevel = 0.4;
+        kyooB.material = backgroundMaterial;
 
         //OUTER CUBE------------------------------------------------------------------
         var OnitsBoxMaker = function (name, size, material, edges, scene) {
@@ -259,18 +268,17 @@
                 gizmo.slaves[i].material = new BABYLON.StandardMaterial("mat", scene);
                 gizmo.slaves[i].material.diffuseColor = new BABYLON.Color3.FromHexString(basecolor);
                 gizmo.slaves[i].material.alpha = 1;
-                //var texture = new BABYLON.Texture("../../images/basemap.png", scene);
-                //gizmo.slaves[i].material.opacityTexture = texture;
+              
 
             }
             
             gizmo.slaves[0].position = new BABYLON.Vector3(-size / 2, size / 2, 0);
             gizmo.slaves[0].rotation = new BABYLON.Vector3(0, Math.PI / 2, 0);
-            var texture0 = new BABYLON.Texture("../../images/basemap-infiniblock-logo-wh.png", scene);
+            var texture0 = new BABYLON.Texture("../../images/map3.png", scene);
              gizmo.slaves[0].material.opacityTexture = texture0;
             // Create and tweak the background material.
             //var side0Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            //side0Material.diffuseTexture = new BABYLON.Texture("../../images/Bitcoin2020-Glyph-dark-pattern 1.png", scene);
+            //side0Material.diffuseTexture = new BABYLON.Texture("../../images/map3.png", scene);
             //side0Material.diffuseTexture.uScale = 1;//Repeat on the Vertical Axes
             //side0Material.diffuseTexture.vScale = 1;//Repeat on the Horizontal Axes
             //gizmo.slaves[0].material = side0Material;
@@ -290,11 +298,11 @@
 
             gizmo.slaves[2].position = new BABYLON.Vector3(size / 2, size / 2, 0);
             gizmo.slaves[2].rotation = new BABYLON.Vector3(0, -Math.PI / 2, 0);
-            var texture2 = new BABYLON.Texture("../../images/basemap-btcpay-logo-wh 1.png", scene);
+            var texture2 = new BABYLON.Texture("../../images/map3.png", scene);
             gizmo.slaves[2].material.opacityTexture = texture2;
             // Create and tweak the background material.
             //var side2Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            //side2Material.diffuseTexture = new BABYLON.Texture("../../images/basemap-riverf_logo_1.png", scene);
+            //side2Material.diffuseTexture = new BABYLON.Texture("../../images/basemap-btcpay-logo-wh 1.png", scene);
             //side2Material.diffuseTexture.uScale = 1;//Repeat 5 times on the Vertical Axes
             //side2Material.diffuseTexture.vScale = 1;//Repeat 5 times on the Horizontal Axes
             //gizmo.slaves[2].material = side2Material;
@@ -308,15 +316,17 @@
             //FRONT
             gizmo.slaves[5].position = new BABYLON.Vector3(0, size / 2, -size / 2);            
             gizmo.slaves[5].rotation = new BABYLON.Vector3(0, 0, 0);
-            var texture5 = new BABYLON.Texture("../../images/basemap-riverf_logo_1.png", scene);
+
+            var texture5 = new BABYLON.Texture("../../images/map3.png", scene);
             gizmo.slaves[5].material.opacityTexture = texture5;
 
             // Create and tweak the background material.
-            //var side5Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
-            //side5Material.diffuseTexture = new BABYLON.Texture("../../images/basemap-riverf_logo_1.png", scene);
-            //side5Material.diffuseTexture.uScale = 1.0;//Repeat on the Vertical Axes
-            //side5Material.diffuseTexture.vScale = 1.0;//Repeat on the Horizontal Axes
-            //gizmo.slaves[5].material = side5Material;
+            var side5Material = new BABYLON.BackgroundMaterial("backgroundMaterial", scene);
+            side5Material.diffuseTexture = new BABYLON.Texture("../../images/basemap-riverf_logo_2.png", scene);
+            side5Material.diffuseTexture.uScale = 1.0;//Repeat on the Vertical Axes
+            side5Material.diffuseTexture.vScale = 1.0;//Repeat on the Horizontal Axes
+            gizmo.slaves[5].material = side5Material;
+            
 
             return gizmo;
         };
